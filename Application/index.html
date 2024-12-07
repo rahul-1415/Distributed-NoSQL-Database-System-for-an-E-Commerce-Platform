@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyApp Landing Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the landing page */
+        body {
+            background-color: #212529; /* Dark background for entire page */
+            color: #ffffff; /* White text for better readability */
+        }
+        .card-dark {
+            background-color: #343a40; /* Dark theme for cards */
+            color: #ffffff;
+            padding: 1.5rem;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #007bff; /* Bootstrap primary button color */
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        .intro-section {
+            margin-top: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Olist E-commerce</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="view-records.html">View Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-record.html">Create Record</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Intro Section -->
+    <div class="container intro-section">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-dark">
+                    <h1 class="display-4">Welcome to OList</h1>
+                    <p class="lead mt-3">
+                        Manage your records efficiently with Olist Database. Use the options below to view existing records or create new ones.
+                    </p>
+                    <div class="mt-4">
+                        <a href="view-records.html" class="btn btn-primary btn-lg me-3">View Records</a>
+                        <a href="create-record.html" class="btn btn-primary btn-lg">Create Record</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

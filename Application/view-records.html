@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Customer Records</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.1/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.1/nouislider.min.js"></script>
+    <style>
+        /* Custom styles for smaller, dark-themed cards */
+        .card {
+            background-color: #343a40; /* Dark theme */
+            color: #ffffff;
+            padding: 0.5rem; /* Reduced padding */
+        }
+        .status-indicator {
+            width: 15px; /* Smaller indicator */
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px; /* Reduced space */
+        }
+        .status-available {
+            background-color: green;
+        }
+        .status-unavailable {
+            background-color: red;
+        }
+        .node-container h5 {
+            margin-right: 8px; /* Reduced space between text and switch */
+            margin-bottom: 0; /* Remove bottom margin */
+            font-size: 1rem; /* Smaller font size */
+        }
+        .form-check.form-switch {
+            margin-right: 8px; /* Reduced space between switch and signal */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Olist E-Commerce</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="view-records.html">View Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-record.html">Create Record</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Node Switches and Status Indicators -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Node 1 Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="d-flex align-items-center justify-content-center node-container">
+                        <h5 class="mb-0">Region 1</h5>
+                        <div class="form-check form-switch d-inline">
+                            <input type="checkbox" class="form-check-input" id="region_1-switch" checked>
+                        </div>
+                        <span id="region_1-status" class="status-indicator status-available"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node 2 Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="d-flex align-items-center justify-content-center node-container">
+                        <h5 class="mb-0">Region 2</h5>
+                        <div class="form-check form-switch d-inline">
+                            <input type="checkbox" class="form-check-input" id="region_2-switch" checked>
+                        </div>
+                        <span id="region_2-status" class="status-indicator status-available"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node 3 Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="d-flex align-items-center justify-content-center node-container">
+                        <h5 class="mb-0">Region 3</h5>
+                        <div class="form-check form-switch d-inline">
+                            <input type="checkbox" class="form-check-input" id="region_3-switch" checked>
+                        </div>
+                        <span id="region_3-status" class="status-indicator status-available"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Filter Section -->
+<div class="container mt-4">
+    <div class="card p-3 mb-4">
+        <h5 class="card-title">Filter Records</h5>
+        <form id="filter-form">
+            <div class="row align-items-center">
+                <!-- Zip Code Range Slider -->
+                <div class="col-md-6 mb-3">
+                    <label for="zipRange" class="form-label">Zip Code Range</label>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">0</span>
+                        <div id="zipRangeSlider" class="flex-grow-1"></div>
+                        <span class="ms-2">99999</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <output id="zipRangeMinOutput">0</output> - <output id="zipRangeMaxOutput">99999</output>
+                    </div>
+                </div>
+
+                <!-- City Field -->
+                <div class="col-md-3 mb-3">
+                    <label for="city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+                </div>
+
+                <!-- State Field -->
+                <div class="col-md-3 mb-3">
+                    <label for="state" class="form-label">State</label>
+                    <input type="text" class="form-control" id="state" name="state" placeholder="Enter state">
+                </div>
+
+                <!-- Filter Button -->
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <!-- Results Section -->
+<div class="container mt-4" id="results-section" style="display: none;">
+    <h5 class="text-center mb-4">Filtered Customer Records</h5>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Customer ID</th>
+                    <th scope="col">Customer Unique ID</th>
+                    <th scope="col">Zip Code Prefix</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                </tr>
+            </thead>
+            <tbody id="outputTableBody">
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- Bootstrap JS and Optional JavaScript for toggles -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function fetchNodeStatuses() {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/node-statuses");
+                if (!response.ok) throw new Error("Failed to fetch node statuses");
+        
+                const statuses = await response.json();
+        
+                // Update the switches and indicators based on the fetched statuses
+                for (const [nodeId, status] of Object.entries(statuses)) {
+                    const switchElement = document.getElementById(`${nodeId}-switch`);
+                    const statusElement = document.getElementById(`${nodeId}-status`);
+        
+                    if (switchElement && statusElement) {
+                        switchElement.checked = status === "available";
+                        statusElement.classList.toggle("status-available", status === "available");
+                        statusElement.classList.toggle("status-unavailable", status !== "available");
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching node statuses:", error);
+            }
+        }
+        
+        // Call fetchNodeStatuses when the page loads
+        window.addEventListener("DOMContentLoaded", fetchNodeStatuses);
+        
+        async function sendNodeStatus(nodeId, status) {
+            try {
+                // POST the node status to the backend
+                const response = await fetch("http://127.0.0.1:8000/node-status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ node_id: nodeId, status: status }),
+                });
+        
+                if (!response.ok) {
+                    console.error(`Failed to update status for ${nodeId}: ${response.statusText}`);
+                } else {
+                    console.log(`Node ${nodeId} status updated to ${status}`);
+                }
+            } catch (error) {
+                console.error("Error sending node status to backend:", error);
+            }
+        }
+        
+        // JavaScript to handle status color changes
+        document.getElementById("region_1-switch").addEventListener("change", function() {
+            document.getElementById("region_1-status").classList.toggle("status-available", this.checked);
+            document.getElementById("region_1-status").classList.toggle("status-unavailable", !this.checked);
+            const status = this.checked ? "available" : "unavailable";
+            sendNodeStatus("region_1", status);
+        });
+
+        document.getElementById("region_2-switch").addEventListener("change", function() {
+            document.getElementById("region_2-status").classList.toggle("status-available", this.checked);
+            document.getElementById("region_2-status").classList.toggle("status-unavailable", !this.checked);
+            const status = this.checked ? "available" : "unavailable";
+            sendNodeStatus("region_2", status);
+        });
+
+        document.getElementById("region_3-switch").addEventListener("change", function() {
+            document.getElementById("region_3-status").classList.toggle("status-available", this.checked);
+            document.getElementById("region_3-status").classList.toggle("status-unavailable", !this.checked);
+            const status = this.checked ? "available" : "unavailable";
+            sendNodeStatus("region_3", status);
+        });
+
+        const zipRangeSlider = document.getElementById('zipRangeSlider');
+
+        noUiSlider.create(zipRangeSlider, {
+            start: [0, 99999], // Initial range values
+            connect: true, // Shows blue color between handles
+            range: {
+                'min': 0,
+                'max': 99999
+            },
+            step: 1000,
+            tooltips: false, // Shows values above handles
+            format: {
+                to: function(value) {
+                    return Math.round(value);
+                },
+                from: function(value) {
+                    return Number(value);
+                }
+            }
+    });
+
+    // Update output values when slider changes
+    const zipRangeMinOutput = document.getElementById('zipRangeMinOutput');
+    const zipRangeMaxOutput = document.getElementById('zipRangeMaxOutput');
+
+    zipRangeSlider.noUiSlider.on('update', function(values, handle) {
+        if (handle === 0) {
+            zipRangeMinOutput.textContent = values[0];
+        } else {
+            zipRangeMaxOutput.textContent = values[1];
+        }
+    });
+
+    // Function to update the table with fetched records
+function updateTable(records) {
+    const tbody = document.getElementById("outputTableBody");
+    tbody.innerHTML = ""; // Clear existing rows
+
+    // Populate table with new rows
+    records.forEach(record => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${record.customer_id}</td>
+            <td>${record.customer_unique_id}</td>
+            <td>${record.zip_code_prefix}</td>
+            <td>${record.city}</td>
+            <td>${record.state}</td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    // Make the results section visible
+    document.getElementById("results-section").style.display = "block";
+}
+
+    // Function to fetch filtered records
+    async function fetchFilteredRecords() {
+        const zipRangeMin = zipRangeMinOutput.textContent;
+        const zipRangeMax = zipRangeMaxOutput.textContent;
+        const city = document.getElementById("city").value;
+        const state = document.getElementById("state").value;
+    
+        const filterData = {
+            zipRangeMin: parseInt(zipRangeMin),
+            zipRangeMax: parseInt(zipRangeMax),
+            city,
+            state
+        };
+
+        console.log("Sending filter data:", filterData);
+    
+        try {
+            const response = await fetch('http://127.0.0.1:8000/filter-records', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(filterData)
+            });
+    
+            if (!response.ok) throw new Error('Failed to fetch records');
+    
+            const records = await response.json();
+            updateTable(records); // Populate the table with records
+        } catch (error) {
+            console.error("Error fetching filtered records:", error);
+        }
+    }
+    document.getElementById("filter-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        document.getElementById('outputTableBody').innerHTML = '';
+        fetchFilteredRecords(); // Call the function to fetch records
+    });
+    </script>
+</body>
+</html>
